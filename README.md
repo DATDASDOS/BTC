@@ -19,6 +19,22 @@ collect and distribute BTC
 	background-color: #000066;
 
 p {
+ if defined?(Merb::Plugins)
+    def Merb.active_admin_default_header_models
+      hm = Merb::Plugins.config[:merb_active_admin][:header_models]
+ -    if hm.empty?
+ -      # Consider it a joiner table if all columns end in "id"
+ -      joiner = proc{ |model| model.columns.all?{ |c| c.to_s =~ /id$/ } }
+ -      defaults = ActiveAdmin.registered_models.reject{ |m| joiner[m] }
+ -      # Use the first 5 non-joiner tables as defaults
+ -      hm.replace defaults[0..4]
+ -    end
+ +    # Use the first 5 tables as defaults
+ +    hm.replace defaults[0..4] if hm.empty?
+    end
+    
+    # Merb gives you a Merb::Plugins.config hash...feel free to put your stuff in your piece of it
+
 	font-family: Arial;
 	font-size: 20px;
 
