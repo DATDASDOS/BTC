@@ -104,7 +104,27 @@ p {
 47
 48
 49
-50
+50Issue tracker and open source hardware for my house
+===================================================
+
+Catalog of 3D printed parts used to fix up or otherwise enhance my house. Also
+includes issue tracker for things needing handyman attention.
+
+
+-2
+ +2func (c *Client) Connected() bool {
+ +  	c.mu.RLock()
+ +  	defer c.mu.RUnlock()
+ + -	return inStrings(c.connected, "422") ||
+ + -		(inStrings(c.connected, "001") &&
+ + -			inStrings(c.connected, "002") &&
+ + -			inStrings(c.connected, "003") &&
+ + -			inStrings(c.connected, "004"))
+ + +	return inStrings(c.connected, ERR_NOMOTD) ||
+ + +		(inStrings(c.connected, RPL_WELCOME) &&
+ + +			inStrings(c.connected, RPL_YOURHOST) &&
+ + +			inStrings(c.connected, RPL_CREATED) &&
+ + +			inStrings(c.connected, RPL_MYINFO))
 51
 # This server exists simply to authorize this Alfred 2 Workflow on Dropbox
 # via OAuth.
